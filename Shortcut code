@@ -8,14 +8,14 @@ If input=100 WFInput=:raw{
 			"Type": "ExtensionInput"
 		},
 		"WFSerializationType": "WFTextTokenAttachment"
-	}
-} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+	} // Takes input from the share sheet on iOS
+}
 	SetVariable variable=Song WFInput=:raw{
 		"Value": {
 			"Type": "ExtensionInput"
 		},
 		"WFSerializationType": "WFTextTokenAttachment"
-	} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+	} // links the input Url to a variable
 Otherwise
 	GetClipboard -> mv:"Get Clipboard"
 	SetVariable variable=Song WFInput=:raw{
@@ -25,7 +25,7 @@ Otherwise
 			"OutputUUID": "9B65292A-E65F-4E96-BC10-6AFE4800EB88"
 		},
 		"WFSerializationType": "WFTextTokenAttachment"
-	} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+	} // if the share sheet is not used, the shortcut looks for an input from the clipboard
 End -> mv:If
 Text "https://api.song.link/v1-alpha.1/links?url=\(v:Song)" -> mv:Text
 GetURLsfromInput WFInput=:raw{
@@ -35,12 +35,12 @@ GetURLsfromInput WFInput=:raw{
 				"Type": "ActionOutput",
 				"OutputName": "Text",
 				"OutputUUID": "CAA8A8FB-129D-4EE9-9465-92F6AA4B2A63"
-			}
+			} // adds the "song" variable to the end of the listed Url
 		},
 		"string": "￼"
 	},
 	"WFSerializationType": "WFTextTokenString"
-} -> mv:"Get URLs from Input" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+} -> mv:"Get URLs from Input" // uses the documented song.link v1-alpha.1 API to parse other platforms that the song is available on
 GetContentsofURL headers=true headers2={} WFURL=:raw{
 	"Value": {
 		"attachmentsByRange": {
@@ -53,7 +53,7 @@ GetContentsofURL headers=true headers2={} WFURL=:raw{
 		"string": "￼"
 	},
 	"WFSerializationType": "WFTextTokenString"
-} -> mv:"Get Contents of URL" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+} -> mv:"Get Contents of URL" // this section of the code analyzes the JSON response from the song.link API
 GetDictionaryfromInput WFInput=:raw{
 	"Value": {
 		"Type": "ActionOutput",
@@ -61,7 +61,7 @@ GetDictionaryfromInput WFInput=:raw{
 		"OutputUUID": "1B59C664-6FA9-458A-BACD-E8288770BB3E"
 	},
 	"WFSerializationType": "WFTextTokenAttachment"
-} -> mv:"Get Dictionary from Input" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+} -> mv:"Get Dictionary from Input" // this section of the code looks for the pageUrl value in the JSON response
 GetDictionaryValue key=pageUrl WFInput=:raw{
 	"Value": {
 		"Type": "ActionOutput",
@@ -69,7 +69,7 @@ GetDictionaryValue key=pageUrl WFInput=:raw{
 		"OutputUUID": "DE6367EB-5B9F-4BAE-A91E-ECA514D28FB1"
 	},
 	"WFSerializationType": "WFTextTokenAttachment"
-} -> mv:"Get Dictionary Value" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+} -> mv:"Get Dictionary Value" // the pageUrl value is the link that is shared to the user's share sheet or clipboard as instructed by the end user
 GetTextfromInput WFInput=:raw{
 	"Value": {
 		"Type": "ActionOutput",
@@ -77,7 +77,7 @@ GetTextfromInput WFInput=:raw{
 		"OutputUUID": "A5F93498-A430-4A0A-8254-C4223DE94B0E"
 	},
 	"WFSerializationType": "WFTextTokenAttachment"
-} -> mv:"Get Text from Input" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+} -> mv:"Get Text from Input" // copying the pageUrl to the sharesheet or clipboard
 Share WFInput=:raw{
 	"Value": {
 		"Type": "ActionOutput",
@@ -85,4 +85,4 @@ Share WFInput=:raw{
 		"OutputUUID": "6706251B-B14A-438F-A250-B1CF70ADA6C3"
 	},
 	"WFSerializationType": "WFTextTokenAttachment"
-} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+} // end of the shortcut
