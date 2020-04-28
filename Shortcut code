@@ -1,0 +1,88 @@
+@ShowInShareSheet [url]
+@Icon music
+@Color teal
+If input=100 WFInput=:raw{
+	"Type": "Variable",
+	"Variable": {
+		"Value": {
+			"Type": "ExtensionInput"
+		},
+		"WFSerializationType": "WFTextTokenAttachment"
+	}
+} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+	SetVariable variable=Song WFInput=:raw{
+		"Value": {
+			"Type": "ExtensionInput"
+		},
+		"WFSerializationType": "WFTextTokenAttachment"
+	} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+Otherwise
+	GetClipboard -> mv:"Get Clipboard"
+	SetVariable variable=Song WFInput=:raw{
+		"Value": {
+			"Type": "ActionOutput",
+			"OutputName": "Clipboard",
+			"OutputUUID": "9B65292A-E65F-4E96-BC10-6AFE4800EB88"
+		},
+		"WFSerializationType": "WFTextTokenAttachment"
+	} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+End -> mv:If
+Text "https://api.song.link/v1-alpha.1/links?url=\(v:Song)" -> mv:Text
+GetURLsfromInput WFInput=:raw{
+	"Value": {
+		"attachmentsByRange": {
+			"{0, 1}": {
+				"Type": "ActionOutput",
+				"OutputName": "Text",
+				"OutputUUID": "CAA8A8FB-129D-4EE9-9465-92F6AA4B2A63"
+			}
+		},
+		"string": "￼"
+	},
+	"WFSerializationType": "WFTextTokenString"
+} -> mv:"Get URLs from Input" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+GetContentsofURL headers=true headers2={} WFURL=:raw{
+	"Value": {
+		"attachmentsByRange": {
+			"{0, 1}": {
+				"Type": "ActionOutput",
+				"OutputName": "URLs",
+				"OutputUUID": "1EFEF420-139B-4E38-84CD-CA04923CEB4B"
+			}
+		},
+		"string": "￼"
+	},
+	"WFSerializationType": "WFTextTokenString"
+} -> mv:"Get Contents of URL" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+GetDictionaryfromInput WFInput=:raw{
+	"Value": {
+		"Type": "ActionOutput",
+		"OutputName": "Contents of URL",
+		"OutputUUID": "1B59C664-6FA9-458A-BACD-E8288770BB3E"
+	},
+	"WFSerializationType": "WFTextTokenAttachment"
+} -> mv:"Get Dictionary from Input" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+GetDictionaryValue key=pageUrl WFInput=:raw{
+	"Value": {
+		"Type": "ActionOutput",
+		"OutputName": "Dictionary",
+		"OutputUUID": "DE6367EB-5B9F-4BAE-A91E-ECA514D28FB1"
+	},
+	"WFSerializationType": "WFTextTokenAttachment"
+} -> mv:"Get Dictionary Value" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+GetTextfromInput WFInput=:raw{
+	"Value": {
+		"Type": "ActionOutput",
+		"OutputName": "Dictionary Value",
+		"OutputUUID": "A5F93498-A430-4A0A-8254-C4223DE94B0E"
+	},
+	"WFSerializationType": "WFTextTokenAttachment"
+} -> mv:"Get Text from Input" // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
+Share WFInput=:raw{
+	"Value": {
+		"Type": "ActionOutput",
+		"OutputName": "Text",
+		"OutputUUID": "6706251B-B14A-438F-A250-B1CF70ADA6C3"
+	},
+	"WFSerializationType": "WFTextTokenAttachment"
+} // Warning: This action contains some parameters that are not supported. Editing them may cause errors.
